@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@specteteu — loja</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <meta name="description" content="Loja oficial do @specteteu (Theus). Compre MM2 de forma segura, rápida e pelo melhor preço.">
+    <style>
+        :root {
+            --deep: #1A4B8F;
+            --glacier: #88B7F3;
+            --arctic: #D7EAFB;
+            --stellar: #FFD75E;
+            --snow: #FFFFFF;
+            --offer: #4CAF50;
+
+            --bg0: #061426;
+            --bg1: #0B2A52;
+            --glass: rgba(255,255,255,.08);
+            --stroke: rgba(136,183,243,.35);
+            --shadow: 0 18px 50px rgba(0,0,0,.45);
+            --radius: 22px;
+            --radius2: 28px;
+
+            --text: rgba(255,255,255,.92);
+            --muted: rgba(215,234,251,.78);
+            --max: 1100px;
+        }
+
+        .site-avatar {
+          width: 72px;
+          height: 72px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 2px solid var(--glacier);
+          box-shadow: 0 0 20px rgba(136,183,243,.35);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1100px 600px at 20% 0%, rgba(136,183,243,.35), transparent 60%),
+                radial-gradient(900px 520px at 90% 10%, rgba(26,75,143,.45), transparent 60%),
+                radial-gradient(1000px 700px at 60% 120%, rgba(215,234,251,.22), transparent 62%),
+                linear-gradient(180deg, var(--bg0), var(--bg1));
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* NEVE REALISTA - MELHORADA - NO FUNDO */
+        .snow-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: rgba(255,255,255,.6);
+            font-size: 1em;
+            user-select: none;
+            animation: fall linear infinite;
+            filter: blur(0.5px);
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(100vh) rotate(360deg) translateX(30px); opacity: 0; }
+        }
+
+        .snowflake:nth-child(4n) { animation-duration: 10s; font-size: 0.7em; }
+        .snowflake:nth-child(4n+1) { animation-duration: 14s; font-size: 1em; }
+        .snowflake:nth-child(4n+2) { animation-duration: 18s; font-size: 0.9em; }
+        .snowflake:nth-child(4n+3) { animation-duration: 22s; font-size: 1.1em; }
+
+        /* CONTAINER */
+        .container {
+            width: min(var(--max), calc(100% - 32px));
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* HEADER */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            backdrop-filter: blur(14px);
+            background: linear-gradient(180deg, rgba(6,20,38,.72), rgba(6,20,38,.18));
+            border-bottom: 1px solid rgba(136,183,243,.18);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(136,183,243,.25), rgba(26,75,143,.35));
+            border: 1px solid rgba(136,183,243,.45);
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+            display: grid;
+            place-items: center;
+        }
+
+        .brand h1 {
+            font-size: 16px;
+            letter-spacing: .2px;
+        }
+
+        .brand small {
+            display: block;
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* LED STATUS */
+        .led {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(136,183,243,.22);
+            box-shadow: var(--shadow);
+        }
+
+        .led-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--offer);
+            box-shadow: 0 0 14px rgba(76,175,80,.8), 0 0 30px rgba(76,175,80,.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.95); }
+        }
+
+        .led-text {
+            font-size: 12px;
+            color: var(--arctic);
+            letter-spacing: .2px;
+            white-space: nowrap;
+        }
+
+        .led-btn {
+            appearance: none;
+            border: 1px solid rgba(136,183,243,.22);
+            background: rgba(215,234,251,.08);
+            color: var(--arctic);
+            padding: 8px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+
+        .led-btn:hover {
+            background: rgba(215,234,251,.12);
+            border-color: rgba(136,183,243,.35);
+            transform: scale(1.05);
+        }
+
+        .led-btn:active { transform: scale(.98); }
+
+        /* HERO SECTION */
+        .hero { padding: 22px 0 18px; }
+
+        .hero-card {
+            border-radius: var(--radius2);
+            background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(215,234,251,.06));
+            border: 1px solid rgba(136,183,243,.22);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-card::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            background:
+                radial-gradient(600px 220px at 20% 0%, rgba(136,183,243,.35), transparent 60%),
+                radial-gradient(700px 260px at 90% 40%, rgba(26,75,143,.45), transparent 62%);
+            opacity: .7;
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            position: relative;
+            padding: 18px;
+            display: grid;
+            gap: 14px;
+        }
+
+        .kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(136,183,243,.22);
+            background: rgba(6,20,38,.35);
+            width: fit-content;
+            color: var(--arctic);
+            font-size: 12px;
+        }
+
+        .hero-title {
+            font-size: clamp(22px, 4.6vw, 34px);
+            line-height: 1.1;
+            letter-spacing: .2px;
+        }
+
+        .hero-desc {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+            max-width: 60ch;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 2px;
+        }
+
+        /* ====== RECADO (BOTÃO NEON ROXO GLASS) ====== */
+        .recado-wrap{
+          padding: 6px 0 8px;
+        }
+
+        .recado-card{
+          border-radius: var(--radius2);
+          background: rgba(255,255,255,.06);
+          border: 1px solid rgba(136,183,243,.18);
+          box-shadow: var(--shadow);
+          overflow: hidden;
+        }
+
+        .recado-inner{
+          padding: 14px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        /* Botão principal roxo neon (glass) */
+        .btn-recado{
+          border-radius: 18px;
+          border: 1px solid rgba(180, 90, 255, .45);
+          color: rgba(255,255,255,.95);
+          font-weight: 900;
+          letter-spacing: .2px;
+          cursor: pointer;
+
+          background:
+            radial-gradient(220px 90px at 25% 20%, rgba(200, 140, 255, .35), transparent 60%),
+            linear-gradient(135deg, rgba(70, 0, 120, .55), rgba(35, 0, 70, .35));
+
+          backdrop-filter: blur(12px);
+          box-shadow:
+            0 10px 30px rgba(0,0,0,.35),
+            0 0 18px rgba(170, 70, 255, .35),
+            inset 0 0 0 1px rgba(255,255,255,.08);
+
+          transition: all .2s ease;
+          padding: 12px 14px;
+          text-align: center;
+        }
+
+        .btn-recado:hover{
+          transform: translateY(-2px);
+          border-color: rgba(200, 140, 255, .70);
+          box-shadow:
+            0 14px 40px rgba(0,0,0,.42),
+            0 0 26px rgba(190, 90, 255, .55),
+            0 0 50px rgba(120, 0, 255, .20),
+            inset 0 0 0 1px rgba(255,255,255,.10);
+        }
+
+        .btn-recado:active{ transform: translateY(0); }
+
+        /* Texto "grande" */
+        .btn-recado .big{
+          display: block;
+          font-size: 16px;
+        }
+        .btn-recado .small{
+          display: block;
+          margin-top: 3px;
+          font-size: 12px;
+          color: rgba(215,234,251,.88);
+          font-weight: 700;
+        }
+
+        /* Botão secundário de copiar */
+        .btn-copy-recado{
+          border-radius: 18px;
+          border: 1px solid rgba(180, 90, 255, .25);
+          background: rgba(255,255,255,.06);
+          color: var(--arctic);
+          font-weight: 800;
+          cursor: pointer;
+          transition: all .2s ease;
+          backdrop-filter: blur(10px);
+          padding: 12px 14px;
+          text-align: center;
+        }
+
+        .btn-copy-recado:hover{
+          background: rgba(215,234,251,.10);
+          border-color: rgba(180, 90, 255, .40);
+          transform: translateY(-2px);
+        }
+
+        .btn-copy-recado:active{ transform: translateY(0); }
+
+        /* Desktop: ambos com o mesmo tamanho */
+        .btn-recado,
+        .btn-copy-recado{
+          flex: 1 1 320px;
+          max-width: 560px;
+          width: 100%;
+          min-height: 62px;
+        }
+
+        .copy-feedback{
+          font-size: 12px;
+          color: rgba(215,234,251,.80);
+          display: none;
+          text-align: center;
+          padding: 0 14px 14px;
+        }
+        .copy-feedback.show{ display: block; }
+
+        /* Mobile: recado em cima, copiar embaixo, centralizado */
+        @media (max-width: 720px){
+          .recado-inner{
+            flex-direction: column;
+            align-items: stretch;
+            padding: 12px;
+            gap: 10px;
+          }
+
+          .btn-recado,
+          .btn-copy-recado{
+            flex: 0 0 auto;
+            max-width: 100%;
+            width: 100%;
+            min-height: 52px;
+            padding: 10px 12px;
+          }
+
+          .btn-recado .big{
+            font-size: 15px;
+          }
+          .btn-recado .small{
+            font-size: 11px;
+            margin-top: 2px;
+          }
+        }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 14px;
+            border-radius: 18px;
+            border: 1px solid rgba(136,183,243,.25);
+            background: rgba(255,255,255,.06);
+            color: var(--arctic);
+            font-weight: 700;
+            letter-spacing: .2px;
+            cursor: pointer;
+            transition: all .2s ease;
+            flex: 1 1 160px;
+            min-height: 52px;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: rgba(215,234,251,.10);
+            border-color: rgba(136,183,243,.40);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(136,183,243,.2);
+        }
+
+        .btn:active { transform: translateY(0); }
+
+        .btn-primary {
+            background: linear-gradient(180deg, rgba(255,215,94,.96), rgba(255,215,94,.82));
+            color: var(--deep);
+            border: 1px solid rgba(255,215,94,.55);
+            box-shadow: 0 4px 20px rgba(255,215,94,.2);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(180deg, rgba(255,215,94,1), rgba(255,215,94,.86));
+            box-shadow: 0 8px 30px rgba(255,215,94,.4);
+        }
+
+        .btn-icon {
+            width: 20px;
+            height: 20px;
+            opacity: .95;
+        }
+
+        /* SECTIONS */
+        .section { padding: 14px 0 18px; }
+
+        .section-title {
+            margin: 10px 0 12px;
+            font-size: 16px;
+            letter-spacing: .2px;
+            color: var(--arctic);
+        }
+
+        .grid { display: grid; gap: 12px; }
+
+        @media (min-width: 860px) {
+            .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+            .grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .card {
+            border-radius: var(--radius);
+            background: rgba(255,255,255,.06);
+            border: 1px solid rgba(136,183,243,.22);
+            box-shadow: 0 12px 38px rgba(0,0,0,.35);
+            padding: 14px;
+            position: relative;
+            overflow: hidden;
+            transition: all .3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(136,183,243,.25);
+            border-color: rgba(136,183,243,.4);
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            inset: auto -60px -60px auto;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(136,183,243,.26), transparent 62%);
+            transform: rotate(18deg);
+            pointer-events: none;
+        }
+
+        .card h3 {
+            margin: 0 0 6px;
+            font-size: 14px;
+            letter-spacing: .2px;
+        }
+
+        .card p {
+            margin: 0;
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.45;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(136,183,243,.22);
+            background: rgba(215,234,251,.08);
+            color: var(--arctic);
+            font-size: 12px;
+            width: fit-content;
+            margin-bottom: 8px;
+        }
+
+        .notice {
+            border-radius: var(--radius);
+            padding: 14px;
+            border: 1px solid rgba(136,183,243,.22);
+            background: rgba(215,234,251,.08);
+            color: var(--arctic);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* FOOTER */
+        .footer {
+            padding: 18px 0 26px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .footer .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .iconbar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .iconlink {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(136,183,243,.18);
+            background: rgba(255,255,255,.05);
+            transition: all .2s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .iconlink:hover {
+            background: rgba(215,234,251,.10);
+            border-color: rgba(136,183,243,.35);
+            transform: translateY(-2px);
+        }
+
+        .iconlink:active { transform: scale(.99); }
+
+        .iconlink svg {
+            width: 18px;
+            height: 18px;
+            opacity: .9;
+        }
+
+        /* Ícones Roblox no rodapé (imagens) */
+        .iconlink img.roblox-avatar {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .iconlink img.roblox-group {
+            width: 18px;
+            height: 18px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        /* Ícones com degradê sutil (Instagram, TikTok, YouTube) */
+        .iconlink.ig svg { filter: drop-shadow(0 0 3px rgba(225, 48, 108, 0.4)); }
+        .iconlink.tt svg { filter: drop-shadow(0 0 3px rgba(37, 244, 238, 0.4)); }
+        .iconlink.yt svg { filter: drop-shadow(0 0 3px rgba(255, 0, 0, 0.4)); }
+
+        /* PAGES */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(136,183,243,.18);
+            background: rgba(255,255,255,.05);
+            color: var(--arctic);
+            text-decoration: none;
+            margin: 20px 0;
+            transition: all .2s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(215,234,251,.10);
+            border-color: rgba(136,183,243,.35);
+            transform: translateX(-3px);
+        }
+
+        /* VALUES PAGE */
+        :root{ --banner-h: 64px; }
+
+        /* Banner fixo (amarelo) - corrigido para iOS */
+        .conversion-banner{
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: linear-gradient(180deg, rgba(255,215,94,.96), rgba(255,215,94,.88));
+          color: var(--deep);
+          padding: 12px 16px;
+          padding-bottom: calc(12px + env(safe-area-inset-bottom));
+          text-align: center;
+          font-weight: bold;
+          box-shadow: 0 -5px 20px rgba(0,0,0,.3);
+          z-index: 999;
+          font-size: 14px;
+          transform: translateZ(0);
+          -webkit-transform: translateZ(0);
+          will-change: transform;
+        }
+
+        body{ padding-bottom: 0; }
+
+        .values-wrap{
+          padding-bottom: calc(var(--banner-h) + 24px + env(safe-area-inset-bottom));
+        }
+
+        @media (max-width: 768px){
+          .hero-title { font-size: 2rem; }
+          .hero-desc { font-size: 1rem; }
+          .brand h1 { font-size: 1.5rem; }
+          .led-text { font-size: 0.9rem; }
+
+          .conversion-banner{
+            font-size: 12px;
+            padding-top: 12px;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-bottom: calc(12px + env(safe-area-inset-bottom));
+          }
+
+          :root{ --banner-h: 58px; }
+        }
+
+        /* Galeria vertical (1080x1920) com zoom */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+        @media (min-width: 860px) {
+            .gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+        .shot {
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1px solid rgba(136,183,243,.22);
+            background: rgba(255,255,255,.06);
+            box-shadow: 0 14px 40px rgba(0,0,0,.35);
+            cursor: pointer;
+            position: relative;
+            aspect-ratio: 9 / 16;
+            padding: 0;
+        }
+        .shot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transform: scale(1.01);
+        }
+        .shot::after {
+            content: "Toque para ampliar";
+            position: absolute;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            padding: 10px 12px;
+            border-radius: 14px;
+            background: rgba(6,20,38,.55);
+            border: 1px solid rgba(136,183,243,.22);
+            color: var(--arctic);
+            font-size: 12px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(6px);
+            transition: .2s ease;
+        }
+        .shot:active::after { opacity: 1; transform: translateY(0); }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.72);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 18px;
+        }
+        .lightbox.open { display: flex; }
+        .lightbox-card {
+            width: min(520px, 100%);
+            border-radius: 22px;
+            overflow: hidden;
+            border: 1px solid rgba(136,183,243,.26);
+            background: rgba(6,20,38,.55);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 30px 90px rgba(0,0,0,.6);
+            position: relative;
+        }
+        .lightbox-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            background: rgba(255,255,255,.02);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border: 1px solid rgba(136,183,243,.25);
+            background: rgba(255,255,255,.10);
+            color: var(--arctic);
+            border-radius: 999px;
+            padding: 10px 12px;
+            cursor: pointer;
+            font-weight: 800;
+        }
+        .lightbox-hint {
+            padding: 12px 14px;
+            font-size: 12px;
+            color: var(--muted);
+            border-top: 1px solid rgba(136,183,243,.18);
+        }
+
+        .brand-avatar {
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          object-fit: cover;
+          border: 2px solid var(--glacier);
+          box-shadow:
+            0 0 12px rgba(136, 183, 243, 0.45),
+            inset 0 0 6px rgba(255, 255, 255, 0.25);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NEVE REALISTA -->
+    <div class="snow-container" id="snowContainer"></div>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="brand">
+                    <img src="favicon.png" alt="Foto do Theus" class="brand-avatar" />
+                    <div>
+                        <h1>Murder Mystery 2</h1>
+                        <small>Loja do Theus • @specteteu</small>
+                    </div>
+                </div>
+
+                <div class="led" id="statusLed">
+                    <span class="led-dot" id="statusDot"></span>
+                    <span class="led-text" id="statusText">🟢 ON</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- HOME PAGE -->
+        <div id="homePage" class="page active">
+            <section class="hero">
+                <div class="hero-card">
+                    <div class="hero-inner">
+                        <span class="kicker">💙 @specteteu • Compras via Direct</span>
+                        <h2 class="hero-title">Boas vindas a loja do Theus ⭐</h2>
+                        <p class="hero-desc">
+                            Aqui você encontra <strong>valores atualizados</strong>, <strong>estoque</strong> e informações claras para comprar com segurança e rapidez.
+                        </p>
+                        <!-- 🔴 PIX AO VIVO (aparece somente em LIVE) -->
+<section class="recado-wrap" id="pixLiveSection" style="display:none;">
+  <div class="recado-card">
+    <div class="recado-inner">
+
+      <!-- Botão principal -->
+      <div class="btn-recado">
+        <span class="big">🔑 Chave Pix do Theus</span>
+        <span class="small">
+          Quem recebe o pagamento:<br> <strong>Ytewá Frederico Barboza</strong><br>
+          <br>A entrega ocorre <strong>somente</strong> após o envio do comprovante via PV do Instagram ou TikTok.<br>
+          <br>Ao realizar qualquer compra durante a live, você confirma que leu e concorda com os
+          <a href="termos.html" style="color:#c58bff;text-decoration:underline;">termos de compra</a>.
+        </span>
+      </div>
+
+      <!-- Botão copiar -->
+      <button class="btn-copy-recado" onclick="copyPixKey()">
+        🔐 Chave Pix — clique aqui para copiar
+      </button>
+
+    </div>
+
+    <div class="copy-feedback" id="pixCopyFeedback">
+      ✅ Chave Pix copiada com sucesso!
+    </div>
+
+    <!-- QR CODE -->
+    <div style="padding:14px; text-align:center;">
+      <img
+        src="qrcode.jpeg"
+        alt="QR Code Pix"
+        style="
+          max-width:100%;
+          height:auto;
+          border-radius:18px;
+          border:1px solid rgba(180,90,255,.35);
+          box-shadow:0 0 30px rgba(170,70,255,.35);
+          cursor:pointer;
+        "
+        onclick="openLightbox(this.src, this.alt)"
+      >
+      <div style="margin-top:8px;font-size:12px;color:rgba(215,234,251,.8);">
+        Clique para ampliar • toque fora da imagem para fechar
+      </div>
+    </div>
+
+    <div class="notice" style="margin:14px;">
+      <strong>Após o pagamento:</strong><br>
+      Envie o comprovante via PV, informe seu nick e peça para o Theus conferir seu pedido na live.
+      Não esqueça de especificar exatamente qual item deseja comprar.
+    </div>
+
+  </div>
+</section>
+
+                    
+
+                        <div class="hero-actions">
+                            <button class="btn btn-primary" onclick="navigateTo('valuesPage')">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
+                                    <path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                Valores MM2 / Estoque
+                            </button>
+
+                            <a href="termos.html" class="btn">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
+                                    <path d="M7 3h7l3 3v15H7V3Z" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M9 11h6M9 15h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                Termos de Compra
+                            </a>
+
+                            <button class="btn" onclick="navigateTo('groupPage')">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
+                                    <path d="M16 11a4 4 0 1 0-8 0" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M4 21c1.5-4 14.5-4 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                Grupo do Roblox
+                            </button>
+                            
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+            </section>
+            
+
+          
+
+            <section class="section">
+              <h3 class="section-title">Por que comprar conosco?</h3>
+              <div class="grid cols-3">
+                <article class="card">
+                  <span class="tag">🛡️ Segurança</span>
+                  <h3>Transação transparente</h3>
+                  <p>
+                    Processo simples e seguro, com comunicação clara em todas as etapas.
+                    Entrega garantida ou seu dinheiro de volta.
+                  </p>
+                </article>
+
+                <article class="card">
+                  <span class="tag">⚡ Rapidez</span>
+                  <h3>Atendimento e entrega ágeis</h3>
+                  <p>
+                    Quando estamos <strong>ON</strong>, a entrega costuma ser imediata.
+                    Atendimento rápido, direto e com total suporte durante a compra.
+                  </p>
+                </article>
+              </div>
+            </section>
+
+            <section class="section">
+                <h3 class="section-title">Mapa do Theus</h3>
+                <div class="notice">
+                    
+                    Clique no botão abaixo para acessar o mapa do Theus e saber mais.
+                    <div class="hero-actions" style="margin-top: 12px;">
+                        <button class="btn btn-primary" onclick="navigateTo('formPage')">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 3v18M3 12h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            Acessar SnowSpec HUB ❄️
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section">
+                <h3 class="section-title">Acesso rápido</h3>
+                <div class="grid cols-2">
+                    <div class="notice">
+                        <strong>Comprar é simples:</strong> acesse o estoque/valores e fale seu pedido no PV do Tiktok ou Instagram. Em "Termos", você entende tudo que acontece durante e após o ato da compra.
+                    </div>
+                    <div class="notice">
+                        <strong>Quer apoiar o criador?</strong> No "Grupo do Roblox" ou "Mapa do Theus" você descobre como pode me apoiar sem gastar dinheiro real. 😊
+                    </div>
+                </div>
+            </section>
+
+            <footer class="footer">
+                <div class="row">
+                    <div>
+                        <strong style="color: var(--arctic)">Theus 💙</strong><br/>
+                        <span>@specteteu • Loja oficial</span>
+                    </div>
+
+                    <nav class="iconbar">
+                        <a class="iconlink" href="https://www.roblox.com/users/7516764117/profile" target="_blank" rel="noreferrer">
+                            <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-D2C403E8EA2811BDB2DA5FEE2D6C9B8F-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="Perfil Roblox" class="roblox-avatar" />
+                            Perfil Roblox
+                        </a>
+                        <a class="iconlink" href="https://www.roblox.com/pt/communities/35927285" target="_blank" rel="noreferrer">
+                            <img src="https://tr.rbxcdn.com/180DAY-2f6b47f735c379cfa4aabd861b0e3b3e/150/150/Image/Webp/noFilter" alt="Grupo Roblox" class="roblox-group" />
+                            Grupo Roblox
+                        </a>
+                        <a class="iconlink ig" href="https://instagram.com/specteteu1" target="_blank" rel="noreferrer">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z" stroke="currentColor" stroke-width="2"/></svg>
+                            Instagram
+                        </a>
+                        <a class="iconlink tt" href="https://tiktok.com/@specteteu1" target="_blank" rel="noreferrer">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M14 3v10.2a3.8 3.8 0 1 1-3-3.7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                            TikTok
+                        </a>
+                        <a class="iconlink yt" href="https://youtube.com/@specteteu" target="_blank" rel="noreferrer">
+                            <svg viewBox="0 0 24 24" fill="none"><path d="M10 9.5 16 12l-6 2.5v-5Z" stroke="currentColor" stroke-width="2"/></svg>
+                            YouTube
+                        </a>
+                    </nav>
+                </div>
+            </footer>
+        </div>
+
+        <!-- VALUES PAGE -->
+        <div id="valuesPage" class="page">
+            <!-- ✅ FIX: back button corrigido -->
+            <a href="#" class="back-btn" onclick="navigateTo('homePage'); return false;">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
+                    <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Voltar ao Início
+            </a>
+
+            <div class="values-wrap">
+                <section class="hero">
+                    <div class="hero-card">
+                        <div class="hero-inner">
+                            <span class="kicker">📸 Estoque em fotos</span>
+                            <h2 class="hero-title">Valores MM2 / Estoque Atual</h2>
+                            <p class="hero-desc">Toque na foto para ampliar e conferir detalhes. <br/>A compra é <strong>somente</strong> feita via Direct do Instagram ou PV do TikTok.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h3 class="section-title">Valores + estoque atual (toque para ampliar)</h3>
+                    <div class="gallery" id="gallery"></div>
+                </section>
+
+                <footer class="footer">
+                    <div class="row">
+                        <div>
+                            <strong style="color: var(--arctic)">@specteteu</strong><br/>
+                            <span>Links rápidos</span>
+                        </div>
+                        <nav class="iconbar" aria-label="Links essenciais">
+                            <a class="iconlink" href="https://www.roblox.com/users/7516764117/profile" target="_blank" rel="noreferrer">Roblox</a>
+                            <a class="iconlink" href="https://instagram.com/specteteu1" target="_blank" rel="noreferrer">Instagram</a>
+                            <a class="iconlink" href="https://tiktok.com/@specteteu1" target="_blank" rel="noreferrer">TikTok</a>
+                        </nav>
+                    </div>
+                </footer>
+            </div>
+
+            <div class="conversion-banner">
+                📱 Compras via Direct do Instagram ou PV do TikTok!
+            </div>
+        </div>
+
+        <!-- TERMS PAGE -->
+        <div id="termsPage" class="page">
+            <a href="#" class="back-btn" onclick="navigateTo('homePage'); return false;">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
+                    <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Voltar ao Início
+            </a>
+
+            <section class="hero">
+                <div class="hero-card">
+                    <div class="hero-inner">
+                        <span class="kicker">📄 Documento oficial</span>
+                        <h2 class="hero-title">Termos de Compra</h2>
+                        <p class="hero-desc">Para manter tudo transparente, os termos ficam no Google Docs. Clique no botão abaixo para acessar o documento oficial.</p>
+
+                        <div class="hero-actions">
+                            <a href="termos.html" class="btn btn-primary">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
+                                    <path d="M7 3h7l3 3v15H7V3Z" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M9 11h6M9 15h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                Abrir Termos no site
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ROBLOX GROUP PAGE -->
+        <div id="groupPage" class="page">
+            <a href="#" class="back-btn" onclick="navigateTo('homePage'); return false;">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
+                    <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Voltar ao Início
+            </a>
+
+            <section class="hero">
+                <div class="hero-card">
+                    <div class="hero-inner">
+                        <span class="kicker">💙 Apoio ao criador</span>
+                        <h2 class="hero-title">Meu grupo no Roblox</h2>
+                        <p class="hero-desc">
+                            Ao comprar na loja, você me apoia a continuar criando conteúdo e mantendo tudo ativo. 💙
+                            <br><br>
+                            Se quiser apoiar ainda mais, entre no meu <strong>grupo do Roblox</strong>.
+                            Lá você encontra roupas exclusivas que podem ser compradas com Robux.
+                            <br><br>
+                            Mesmo entrando no grupo sem comprar nada, você já me ajuda bastante.
+                            E claro, não esqueça de <strong>me seguir no Roblox</strong>!
+                        </p>
+
+                        <div class="grid cols-2" style="margin-top: 15px;">
+                            <article class="card">
+                                <h3>Como funciona</h3>
+                                <p>Entre no grupo, escolha as roupas e finalize a compra dentro do Roblox.</p>
+                            </article>
+                            <article class="card">
+                                <h3>Por que comprar</h3>
+                                <p>Ajuda o Theus a manter a loja ativa e lançar novos conteúdos/peças.</p>
+                            </article>
+                        </div>
+
+                        <div class="hero-actions" style="margin-top: 15px;">
+                            <a href="https://www.roblox.com/groups" target="_blank" class="btn btn-primary">
+                                <img
+                                  src="https://tr.rbxcdn.com/180DAY-2f6b47f735c379cfa4aabd861b0e3b3e/150/150/Image/Webp/noFilter"
+                                  alt="Grupo do Roblox"
+                                  class="btn-icon"
+                                  style="width:36px;height:36px;border-radius:10px;object-fit:cover;"
+                                />
+                                Acessar Grupo
+                            </a>
+
+                            <!-- ✅ FIX: botão de perfil corrigido (tags alinhadas) -->
+                            <a href="https://www.roblox.com/users/7516764117/profile" target="_blank" class="btn">
+                                <img
+                                  src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-D2C403E8EA2811BDB2DA5FEE2D6C9B8F-Png/150/150/AvatarHeadshot/Webp/noFilter"
+                                  alt="Perfil do Theus no Roblox"
+                                  class="btn-icon"
+                                  style="width:36px;height:36px;border-radius:50%;object-fit:cover;"
+                                />
+                                Perfil do Theus
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- FORM PAGE -->
+        <div id="formPage" class="page">
+            <a href="#" class="back-btn" onclick="navigateTo('homePage'); return false;">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
+                    <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Voltar ao Início
+            </a>
+
+            <section class="hero">
+                <div class="hero-card">
+                    <div class="hero-inner">
+                        <span class="kicker">🗺️ Mapa do Theus</span>
+                        <h2 class="hero-title">SnowSpec HUB ❄️</h2>
+                        <p class="hero-desc">Neste mapa do Roblox, você pode comprar: roupas, gamepasses e bundles de outros jogos ou pessoas. - Ao comprar ou jogar o mapa, você apoia o Theus sem gastar mais nada.</p>
+
+                        <div class="hero-actions" style="margin-top: 14px;">
+                            <a href="https://www.roblox.com/pt/games/83824517089672/SnowSpec-HUB#!/about" target="_blank" rel="noreferrer" class="btn btn-primary">
+                                <svg class="btn-icon" viewBox="0 0 24 24" fill="none">
+                                    <path d="M14 3h7v7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M10 14 21 3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M21 14v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                Clique aqui para acessar o SnowSpec HUB ❄️
+                            </a>
+                        </div>
+                        
+                        <div class="card" style="padding: 12px; margin-top: 12px;">
+                            <img
+                                src="mapa.png"
+                                alt="Mapa do Theus"
+                                style="width:100%;height:auto;border-radius:18px;border:1px solid rgba(136,183,243,.22);box-shadow:0 14px 40px rgba(0,0,0,.35);cursor:pointer;"
+                                onclick="openLightbox(this.src, this.alt)"
+                            >
+                            <div style="margin-top:8px;font-size:12px;color:rgba(215,234,251,.8);text-align:center;">
+                                Clique para ampliar • toque fora da imagem para fechar
+                            </div>
+                        </div>
+
+                        
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+        <div class="lightbox-card" role="dialog" aria-modal="true" aria-label="Visualização ampliada">
+            <button class="lightbox-close" id="lightboxClose" type="button">Fechar ✕</button>
+            <img id="lightboxImg" alt="Imagem ampliada do estoque">
+            <div class="lightbox-hint">Dica: toque fora da imagem para fechar • ESC no PC</div>
+        </div>
+    </div>
+
+    <!-- ✅ FIX: script movido para dentro do body -->
+    <script>
+        // ====== NEVE (mais leve no mobile + respeita reduzir movimento) ======
+        function createSnowflakes() {
+            const container = document.getElementById('snowContainer');
+            if (!container) return;
+
+            const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (reduce) {
+                container.innerHTML = '';
+                return;
+            }
+
+            const isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+            const snowflakeCount = isMobile ? 30 : 60;
+
+            container.innerHTML = '';
+            for (let i = 0; i < snowflakeCount; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.textContent = '❄';
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.animationDelay = Math.random() * 15 + 's';
+                snowflake.style.opacity = (Math.random() * 0.5 + 0.3).toFixed(2);
+
+                const size = (Math.random() * 0.6 + (isMobile ? 0.7 : 0.75)).toFixed(2);
+                snowflake.style.fontSize = size + 'em';
+
+                const duration = (Math.random() * (isMobile ? 10 : 12) + 10).toFixed(2);
+                snowflake.style.animationDuration = duration + 's';
+
+                container.appendChild(snowflake);
+            }
+        }
+
+        // ====== STATUS (GLOBAL via JSON) ======
+        const STATUS_URL = "https://raw.githubusercontent.com/specteteu/specteteu-status/main/status.json";
+
+        function applyStatus(key) {
+            const map = {
+                on:   { text: "🟢 ON", color: "#4CAF50" },
+                off:  { text: "🔴 OFF", color: "#FF4D4D" },
+                live: { text: "🟣 EM LIVE (TikTok)", color: "#B26BFF" }
+            };
+
+            const s = map[key] || map.on;
+
+            const dot = document.getElementById("statusDot");
+            const text = document.getElementById("statusText");
+            if (!dot || !text) return;
+
+            dot.style.background = s.color;
+            dot.style.boxShadow = `0 0 14px ${s.color}CC, 0 0 30px ${s.color}55`;
+            text.textContent = s.text;
+
+            togglePixLive(key);
+        }
+
+        async function loadGlobalStatus() {
+            try {
+                const res = await fetch(STATUS_URL + "?ts=" + Date.now(), { cache: "no-store" });
+                const data = await res.json();
+                const key = String(data.status || "on").toLowerCase();
+                applyStatus(key);
+            } catch (e) {
+                applyStatus("on"); // fallback
+            }
+        }
+
+        // ====== NAVEGAÇÃO COM HASH ======
+        const routes = {
+            home: 'homePage',
+            estoque: 'valuesPage',
+            termos: 'termsPage',
+            grupo: 'groupPage'
+        };
+
+        routes.formulario = 'formPage';
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            const el = document.getElementById(pageId);
+            if (el) el.classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function navigateTo(pageId) {
+            const key = Object.keys(routes).find(k => routes[k] === pageId) || 'home';
+            location.hash = `#${key}`;
+            showPage(pageId);
+        }
+
+        function syncRouteFromHash() {
+            const hash = (location.hash || '#home').replace('#', '').trim();
+            const pageId = routes[hash] || routes.home;
+            showPage(pageId);
+        }
+
+        // ====== GALERIA + LIGHTBOX ======
+        const SHOTS = [
+            { src: 'shot-3.png', alt: 'Estoque / Valores - imagem 3' },
+            { src: 'shot-4.png', alt: 'Estoque / Valores - imagem 4' },
+            { src: 'shot-5.png', alt: 'Estoque / Valores - imagem 5' },
+            { src: 'shot-7.png', alt: 'Estoque / Valores - imagem 7' }
+        ];
+
+        function renderGallery() {
+            const gallery = document.getElementById('gallery');
+            if (!gallery) return;
+
+            gallery.innerHTML = '';
+            SHOTS.forEach((shot, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'shot';
+                btn.type = 'button';
+                btn.setAttribute('aria-label', `Abrir imagem ${idx + 1}`);
+
+                const img = document.createElement('img');
+                img.loading = 'lazy';
+                img.src = shot.src;
+                img.alt = shot.alt;
+
+                img.onerror = () => {
+                    img.remove();
+                    btn.style.background = 'linear-gradient(135deg, rgba(136,183,243,.25), rgba(26,75,143,.35))';
+                    btn.style.borderColor = 'rgba(255,215,94,.25)';
+                    btn.style.cursor = 'not-allowed';
+                    btn.setAttribute('aria-label', `Imagem ${idx + 1} não encontrada (adicione em ${shot.src})`);
+                };
+
+                btn.appendChild(img);
+                btn.addEventListener('click', () => {
+                    if (!btn.querySelector('img')) return;
+                    openLightbox(shot.src, shot.alt);
+                });
+
+                gallery.appendChild(btn);
+            });
+        }
+
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxClose = document.getElementById('lightboxClose');
+
+        function openLightbox(src, alt) {
+            if (!lightbox || !lightboxImg) return;
+            lightboxImg.src = src;
+            lightboxImg.alt = alt || 'Imagem ampliada';
+            lightbox.classList.add('open');
+            lightbox.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            if (!lightbox || !lightboxImg) return;
+            lightbox.classList.remove('open');
+            lightbox.setAttribute('aria-hidden', 'true');
+            lightboxImg.src = '';
+            document.body.style.overflow = '';
+        }
+
+        // ====== INIT ======
+        document.addEventListener('DOMContentLoaded', () => {
+            createSnowflakes();
+
+            loadGlobalStatus();
+            setInterval(loadGlobalStatus, 30000);
+
+            renderGallery();
+            syncRouteFromHash();
+
+            window.addEventListener('hashchange', syncRouteFromHash);
+            window.addEventListener('resize', () => createSnowflakes());
+
+            if (lightbox) {
+                lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+            }
+            if (lightboxClose) {
+                lightboxClose.addEventListener('click', closeLightbox);
+            }
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+
+        });
+
+        // ====== PIX VISÍVEL SOMENTE EM LIVE ======
+function togglePixLive(statusKey) {
+  const pixSection = document.getElementById("pixLiveSection");
+  if (!pixSection) return;
+
+  if (statusKey === "live") {
+    pixSection.style.display = "block";
+  } else {
+    pixSection.style.display = "none";
+  }
+}
+
+// ====== COPIAR CHAVE PIX ======
+const PIX_KEY = "00020101021126580014br.gov.bcb.pix0136568d485a-cfe3-4951-a528-21f952c1f9bd5204000053039865802BR5923YTEWA FREDERICO BARBOZA6011AGUAS BELAS62070503***6304AD2A";
+
+function copyPixKey() {
+  navigator.clipboard.writeText(PIX_KEY).then(() => {
+    const fb = document.getElementById("pixCopyFeedback");
+    if (!fb) return;
+    fb.classList.add("show");
+    setTimeout(() => fb.classList.remove("show"), 2500);
+  });
+}
+
+    </script>
+    
+</body>
+</html>
+
+                    
